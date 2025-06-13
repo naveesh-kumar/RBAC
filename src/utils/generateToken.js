@@ -1,8 +1,18 @@
 const jwt = require("jsonwebtoken");
-const { JWT_SECRET_KEY } = require("../config/configEnv.js");
+const {
+  JWT_SECRET_KEY,
+  JWT_REFRESH_SECRET_KEY
+} = require("../config/configEnv.js");
 
-const generateToken = (user) => {
-    return jwt.sign(user, JWT_SECRET_KEY, { expiresIn: '1h' })
-}
+const generateAccessToken = (user) => {
+  return jwt.sign(user, JWT_SECRET_KEY, { expiresIn: "15m" });
+};
 
-module.exports = generateToken
+const generateRefreshToken = (user) => {
+  return jwt.sign(user, JWT_REFRESH_SECRET_KEY, { expiresIn: "7d" });
+};
+
+module.exports = {
+  generateAccessToken,
+  generateRefreshToken,
+};

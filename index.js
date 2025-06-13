@@ -15,14 +15,16 @@ app.use(cookieParser());
 app.use(express.json());
 
 /* Routes */
-app.use('/api/user', authRouter);
-app.use('/api/admin', appRouter);
+app.use("/api/user", authRouter);
+app.use("/api/admin", appRouter);
 
 /* Error handling */
 app.use(errorHandler);
 
 /* App listening */
-app.listen(PORT, (err) => {
-    if (err) console.log(`Error in connecting to Port: ${PORT}`);
-    else console.log(`Server running in Port: ${PORT}`)
-})
+app.listen(PORT, async (err) => {
+  if (err) console.log(`Error in connecting to Port: ${PORT}`);
+  else {
+    console.log(`Server running in Port: ${PORT}`);
+  }
+});

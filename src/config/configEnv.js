@@ -1,8 +1,9 @@
-const dotenv = require('dotenv');
+const dotenv = require("dotenv");
 dotenv.config();
 
 module.exports = {
-    PORT: process.env.PORT || '5500',
-    JWT_SECRET_KEY: process.env.JWT_SECRET_KEY,
-    SALT: process.env.SALT
-}
+  PORT: process.env.PORT || "5500",
+  JWT_SECRET_KEY: process.env.JWT_SECRET_KEY,
+  SALT: process.env.SALT,
+  JWT_REFRESH_SECRET_KEY: process.env.JWT_REFRESH_SECRET_KEY,
+};
