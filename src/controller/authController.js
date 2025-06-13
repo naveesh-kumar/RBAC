@@ -13,12 +13,7 @@ const refreshTokens = new Map();
 
 const registerUser = async (req, res) => {
   const { username, password, role } = req.body;
-  if (!username || !password || !role) {
-    return res.status(400).json({
-      status: 400,
-      message: "All fields are required",
-    });
-  }
+
   try {
     const users = await readFileHandler();
     const hashPassword = await bcrypt.hash(password, SALT);
@@ -45,13 +40,6 @@ const registerUser = async (req, res) => {
 
 const loginUser = async (req, res) => {
   const { username, password } = req.body;
-
-  if (!username || !password) {
-    return res.status(400).json({
-      status: 400,
-      message: "All fields are required",
-    });
-  }
 
   try {
     const users = await readFileHandler();
