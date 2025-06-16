@@ -3,12 +3,14 @@ const {
   JWT_SECRET_KEY,
   JWT_REFRESH_SECRET_KEY,
 } = require("../config/configEnv");
+const logger = require("../config/logger");
 
 const verifyToken = (req, res, next) => {
   const token = req.cookies.app_token;
 
   /* if token is not available in the request */
   if (!token) {
+    logger.error("Access token missing, unauthorized access");
     return res.status(401).json({
       status: 401,
       message: "Access token missing, unauthorized access",

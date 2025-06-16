@@ -1,9 +1,10 @@
 const express = require("express");
 const cookieParser = require("cookie-parser");
-const { PORT } = require("./src/config/configEnv.js");
 const errorHandler = require("./src/middleware/error.js");
 const authRouter = require("./src/routes/authRoutes.js");
 const appRouter = require("./src/routes/appRoutes.js");
+const logger = require("./src/config/logger.js");
+const { PORT } = require("./src/config/configEnv.js");
 
 /* initializing express app */
 const app = express();
@@ -23,8 +24,8 @@ app.use(errorHandler);
 
 /* App listening */
 app.listen(PORT, async (err) => {
-  if (err) console.log(`Error in connecting to Port: ${PORT}`);
+  if (err) logger.error(`Error in connecting to Port: ${PORT}`);
   else {
-    console.log(`Server running in Port: ${PORT}`);
+    logger.info(`Server running in Port: ${PORT}`);
   }
 });

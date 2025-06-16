@@ -8,6 +8,7 @@ const {
   writeFileHandler,
 } = require("../utils/fileHandler.js");
 const { SALT } = require("../config/configEnv.js");
+const logger = require("../config/logger.js");
 
 const refreshTokens = new Map();
 
@@ -29,12 +30,14 @@ const registerUser = async (req, res) => {
       status: 201,
       message: "User successfully Registerd",
     });
+    logger.info(`User ${username} registered successfully...`)
   } catch (err) {
     res.status(500).json({
       status: 500,
       message: "Internal Server Error",
       Error: err.message,
     });
+    logger.error('Internal server error - registration failed')
   }
 };
 
@@ -48,6 +51,7 @@ const loginUser = async (req, res) => {
     );
     /* user not identified */
     if (!user) {
+      logger.warn(`User ${username} couldn't be recognized...`)
       return res.status(401).json({
         status: 401,
         message: "Unauthorized Access",
@@ -58,6 +62,7 @@ const loginUser = async (req, res) => {
 
     /* user password not matched */
     if (!isPasswordMatched) {
+      logger.warn(`User ${username} couldn't be recognized...`)
       return res.status(401).json({
         status: 401,
         message: "Unauthorized Access",
@@ -99,6 +104,8 @@ const loginUser = async (req, res) => {
       refreshToken,
     });
 
+    logger.info(`User ${username} logged in successfully...`)
+
     return refreshToken;
   } catch (err) {
     res.status(500).json({
@@ -118,6 +125,7 @@ const refresh = async (req, res) => {
 
   /* If not valid refresh token */
   if (tokenUser?.id !== reqUser?.id) {
+    logger.error('Invalid or Expired Refresh Token...')
     return res.status(401).json({
       status: 401,
       message: "Invalid or Expired Refresh Token",
@@ -151,14 +159,16 @@ const refresh = async (req, res) => {
       status: 200,
       message: "Refresh token successfully generated",
     });
+    logger.info(`Refresh token successfully generated for user ${username}`)
 
     return refreshToken;
   } catch (err) {
     res.status(500).json({
       status: 500,
-      message: "Internal Server Error hello",
+      message: "Internal Server Error",
       Error: err.message,
     });
+    logger.error("Internal Server Error")
   }
 };
 
