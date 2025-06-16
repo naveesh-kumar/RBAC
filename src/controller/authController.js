@@ -7,9 +7,9 @@ const {
   readFileHandler,
   writeFileHandler,
 } = require("../utils/fileHandler.js");
-const { SALT } = require("../config/configEnv.js");
 const logger = require("../config/logger.js");
 const { parseExpiresIn } = require("../utils/parseExpiresIn.js");
+const { SALT } = require("../config/configEnv.js");
 
 const refreshTokens = new Map();
 
@@ -95,9 +95,9 @@ const loginUser = async (req, res) => {
 
     res.cookie("app_token", accessToken, {
       httpOnly: true, // prevents client side accessing
-      sameSite: "lax",
-      maxAge: 900000,
-      secure: false,
+      sameSite: "strict",
+      maxAge: parseExpiresIn('15m'),
+      secure: process.env.NODE_ENV === 'production',
     });
 
     res.status(200).json({
